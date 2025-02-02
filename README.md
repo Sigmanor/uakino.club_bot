@@ -1,6 +1,6 @@
 # uakino.club_bot
 
-A Telegram bot that sends random recommendations for movies, TV series, and cartoons based on data from [uakino](https://uakino.film).
+A Telegram bot that sends random recommendations for movies, TV series, and cartoons based on data from [uakino](https://uakino.me).
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ A Telegram bot that sends random recommendations for movies, TV series, and cart
 
 ## Description
 
-This bot is designed for convenient access to random movie, TV series, and cartoon recommendations through Telegram. Using the API source [uakino.film](https://uakino.film), the bot provides a quick and easy way to find something interesting to watch.
+This bot is designed for convenient access to random movie, TV series, and cartoon recommendations through Telegram. Using the API source [uakino.me](https://uakino.me), the bot provides a quick and easy way to find something interesting to watch.
 
 ## Features
 
