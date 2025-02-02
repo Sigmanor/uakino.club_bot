@@ -1,0 +1,12 @@
+services:
+  uakino.club_bot:
+    container_name: uakino.club_bot
+    restart: always
+    image: uakino.club_bot:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      TZ: Europe/Kiev
+    env_file:
+      - .env

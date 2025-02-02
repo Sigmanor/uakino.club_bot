@@ -1,0 +1,28 @@
+name: CD for uakino.club_bot
+
+on:
+  push:
+    branches: 
+      - main
+    paths-ignore:
+      - 'README.md'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+      with:
+        username: ${{ secrets.SSH_USER }}
+        host: ${{ secrets.SSH_HOST }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          cd $HOME/apps/
+          rm -rf uakino.club_bot
+          git clone https://github.com/${{ github.repository }}
+          cd $HOME/apps/uakino.club_bot
+          echo "${{ secrets.ENV_PROD }}" > .env
+          docker compose --project-name uakinoclub_bot down -v --rmi all
+          docker compose up -d
+          cd ~
+          rm -rf uakino.club_bot
