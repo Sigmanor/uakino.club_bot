@@ -1,31 +1,3 @@
-<!-- # Description
-
-A simple Telegram bot to get a random movie, TV series, or cartoon from [uakino](https://uakino.film)
-
-## Installation
-
-```bash
-git clone https://github.com/Sigmanor/uakino.club_bot.git
-cd uakino.club_bot
-pip3 install -r requirements.txt
-```
-
-Also, rename the **.env_example** file to **.env** and fill in the bot *TOKEN*.
-
-## Running the Bot
-
-To run the bot, simply execute:
-
-```bash
-python3 bot.py
-```
-
-## Docker
-```bash
-docker compose up -d
-``` -->
-
-
 # uakino.club_bot
 
 A Telegram bot that sends random recommendations for movies, TV series, and cartoons based on data from [uakino](https://uakino.film).
