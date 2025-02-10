@@ -29,7 +29,7 @@ This bot is designed for convenient access to random movie, TV series, and carto
 ## Requirements
 
 - Python 3.6 or higher.
-- pip3 for installing dependencies.
+- pip for installing dependencies.
 - Telegram Bot API token.
 
 ## Deployment
@@ -39,7 +39,7 @@ This bot is designed for convenient access to random movie, TV series, and carto
 ```bash
 git clone https://github.com/Sigmanor/uakino.club_bot.git
 cd uakino.club_bot
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Environment Setup
@@ -49,7 +49,7 @@ Rename the `.env_example` file to `.env` and fill in the required data
 To run the bot locally, use the following command:
 
 ```bash
-python3 bot.py
+python bot.py
 ```
 
 ### Docker
