@@ -1,8 +1,7 @@
 import logging
 from telegram.ext import Application, CommandHandler
 from config import bot_token
-from commands import start_command, movie_command, cartoon_command, serial_command
-
+from commands import start_command, movie_command, cartoon_command, serial_command, broadcast_command, db_command
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
@@ -35,6 +34,8 @@ def main() -> None:
     application.add_handler(CommandHandler("movie", movie_command))
     application.add_handler(CommandHandler("serial", serial_command))
     application.add_handler(CommandHandler("cartoon", cartoon_command))
+    application.add_handler(CommandHandler("add", broadcast_command))
+    application.add_handler(CommandHandler("db", db_command))
     application.run_polling()
 
 
