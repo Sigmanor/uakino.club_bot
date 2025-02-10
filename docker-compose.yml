@@ -10,3 +10,5 @@ services:
       TZ: Europe/Kiev
     env_file:
       - .env
+    volumes:
+      - ./data:/app/data      - .env
