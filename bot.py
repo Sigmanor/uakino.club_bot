@@ -1,7 +1,16 @@
 import logging
 from telegram.ext import Application, CommandHandler
+from telegram.error import NetworkError
 from config import bot_token
-from commands import start_command, movie_command, cartoon_command, serial_command, broadcast_command, db_command
+from commands import (
+    start_command,
+    movie_command,
+    cartoon_command,
+    serial_command,
+    broadcast_command,
+    db_command,
+)
+
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
@@ -20,6 +29,15 @@ async def post_init(application: Application) -> None:
     )
 
 
+async def error_handler(update, context) -> None:
+    logger = logging.getLogger(__name__)
+    logger.error("Exception while handling an update:", exc_info=context.error)
+
+    if isinstance(context.error, NetworkError):
+        logger.info("Network error occurred. Continuing operation...")
+        return
+
+
 def main() -> None:
     application = (
         Application.builder()
@@ -36,6 +54,8 @@ def main() -> None:
     application.add_handler(CommandHandler("cartoon", cartoon_command))
     application.add_handler(CommandHandler("add", broadcast_command))
     application.add_handler(CommandHandler("db", db_command))
+
+    application.add_error_handler(error_handler)
     application.run_polling()
 
 
