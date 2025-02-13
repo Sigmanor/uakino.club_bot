@@ -25,7 +25,8 @@ async def start_command(update: Update, context) -> None:
         "<b>Список команд:</b>\n/movie <i>фільм</i>\n/serial <i>серіал</i>\n/cartoon <i>мультфільм</i>\n\n"
         f"<b>Версія бота:</b> {app_version}\n\n"
         f"<blockquote>Бот був створений задля розваги і немає ніякого зв'язку з сайтом https://{uakino_url} як і <a href='https://t.me/sigmanor'>автор</a> бота</blockquote>\n\n"
-        f"<small>Вихідний код бота можна знайти на  <a href='https://github.com/Sigmanor/uakino.club_bot'>GitHub</a></small>\n",        disable_web_page_preview=True,
+        f"<i>Вихідний код бота можна знайти на <a href='https://github.com/Sigmanor/uakino.club_bot'>GitHub</a></i>",
+        disable_web_page_preview=True,
         parse_mode=ParseMode.HTML,
     )
 
