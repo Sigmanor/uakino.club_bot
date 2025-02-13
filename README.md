@@ -1,52 +1,52 @@
-# uakino.club_bot
+# uakino.club_bot 🎬
 
-A Telegram bot that sends random recommendations for movies, TV series, and cartoons based on data from [uakino](https://uakino.me).
+A Telegram bot that provides random recommendations for movies, TV series, and cartoons from [uakino.me](https://uakino.me).
 
-## Table of Contents
+[![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [uakino.club\_bot](#uakinoclub_bot)
-  - [Table of Contents](#table-of-contents)
-  - [Description](#description)
-  - [Features](#features)
-  - [Requirements](#requirements)
-  - [Deployment](#deployment)
-    - [Clone Repository and Install Dependencies](#clone-repository-and-install-dependencies)
-    - [Environment Setup](#environment-setup)
-    - [Running](#running)
-    - [Docker](#docker)
-    - [Docker Compose](#docker-compose)
+## 📖 Overview
 
-## Description
+This Telegram bot helps users discover new content by providing random recommendations for movies, TV series, and cartoons. It interfaces with uakino.me to offer a streamlined way to find your next watch through Telegram.
 
-This bot is designed for convenient access to random movie, TV series, and cartoon recommendations through Telegram. Using the API source [uakino.me](https://uakino.me), the bot provides a quick and easy way to find something interesting to watch.
+## ✨ Features
 
-## Features
+- 🎲 Random movie recommendations
+- 📺 Random TV series suggestions
+- 🎨 Random cartoon picks
+- 🚀 Simple and intuitive commands
+- 🐳 Docker support for easy deployment
 
-- Random recommendations for movies, TV series, and cartoons.
-- Easy setup and deployment.
-- Docker integration for simplified deployment.
+## 🛠️ Prerequisites
 
-## Requirements
+- Python 3.6 or higher
+- Telegram Bot Token (get it from [@BotFather](https://t.me/botfather))
+- Internet connection 😜
 
-- Python 3.6 or higher.
-- pip for installing dependencies.
-- Telegram Bot API token.
+## 📦 Installation
 
-## Deployment
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Sigmanor/uakino.club_bot.git
+   cd uakino.club_bot
+   ```
 
-### Clone Repository and Install Dependencies
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-git clone https://github.com/Sigmanor/uakino.club_bot.git
-cd uakino.club_bot
-pip install -r requirements.txt
-```
+3. **Configure environment**
+   ```bash
+   cp .env_example .env
+   ```
+   Edit `.env` and add your:
+   - Telegram Bot Token
+   - Your Telegram ID
 
-### Environment Setup
-Rename the `.env_example` file to `.env` and fill in the required data
+## 🚀 Usage
 
-### Running
-To run the bot locally, use the following command:
+### Standard Run
 
 ```bash
 python bot.py
@@ -56,7 +56,7 @@ python bot.py
 
 ```bash
 docker build -t uakino.club_bot .
-docker run uakino.club_bot
+docker run -d --name uakino-bot uakino.club_bot
 ```
 
 ### Docker Compose
@@ -64,3 +64,24 @@ docker run uakino.club_bot
 ```bash
 docker compose up -d
 ```
+
+## 🤖 Bot Commands
+
+| Command    | Description                    |
+|------------|--------------------------------|
+| /start     | Get bot information           |
+| /movie     | Get a random movie            |
+| /serial    | Get a random TV series        |
+| /cartoon   | Get a random cartoon          |
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🤝 Support
+
+If you encounter any problems or have suggestions, please [open an issue](https://github.com/Sigmanor/uakino.club_bot/issues).
