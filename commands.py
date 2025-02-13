@@ -24,8 +24,7 @@ async def start_command(update: Update, context) -> None:
         f"Привіт 🏴‍☠️\n\nЯ покажу тобі випадковий фільм/серіал/мультфільм з сайту <a href='https://{uakino_url}'>uakino</a>\n\n"
         "<b>Список команд:</b>\n/movie <i>фільм</i>\n/serial <i>серіал</i>\n/cartoon <i>мультфільм</i>\n\n"
         f"<b>Версія бота:</b> {app_version}\n\n"
-        f"<blockquote>Бот був створений задля розваги і немає ніякого зв'язку з сайтом https://{uakino_url} як і <a href='https://t.me/sigmanor'>автор</a> бота</blockquote>\n\n"
-        f"<i>Вихідний код бота можна знайти на <a href='https://github.com/Sigmanor/uakino.club_bot'>GitHub</a></i>",
+        f"<blockquote>Бот був створений задля розваги і немає ніякого зв'язку з сайтом https://{uakino_url} як і <a href='https://t.me/sigmanor'>автор</a> бота. Вихідний код бота можна знайти на <a href='https://github.com/Sigmanor/uakino.club_bot'>GitHub</a></blockquote>",
         disable_web_page_preview=True,
         parse_mode=ParseMode.HTML,
     )
@@ -54,7 +53,6 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
     await context.bot.delete_message(
         chat_id=update.message.chat.id, message_id=waitMessage.message_id
     )
-
 
 async def movie_command(update: Update, context) -> None:
     logger.info(update)
