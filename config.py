@@ -6,4 +6,4 @@ load_dotenv()
 bot_token = os.getenv("TOKEN")
 admin_id = int(os.getenv("ADMIN"))
 uakino_url = "uakino.me"
-app_version = "1.2.0"
+app_version = "1.3.0"
