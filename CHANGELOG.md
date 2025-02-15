@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.4.0...v1.5.0) (2025-02-15)
+
+
+### Features
+
+* bump application version to 1.4.0 ([9d029ff](https://github.com/Sigmanor/uakino.club_bot/commit/9d029ff1edde5ae5c92395e1e47fcaba264db112))
+
 # [1.4.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.3.0...v1.4.0) (2025-02-15)
 
 
