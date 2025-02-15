@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.5.0...v1.6.0) (2025-02-15)
+
+
+### Features
+
+* update application version to 1.6.0 to compare inapp ver with semantic-release ([cc2bd19](https://github.com/Sigmanor/uakino.club_bot/commit/cc2bd19e10ca854565908efd48370905004dd53d))
+
 # [1.5.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.4.0...v1.5.0) (2025-02-15)
 
 
