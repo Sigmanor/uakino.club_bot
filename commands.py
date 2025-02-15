@@ -41,19 +41,21 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
         f"{random_content[4] if len(random_content[4].strip()) > 5 else ''}"
     )
 
+    keyboard = [
+        [InlineKeyboardButton(text=f"Посилання на {button_text}", url=random_content[3])],
+        [InlineKeyboardButton(text=f"Ще один {button_text}", callback_data=f"another:{content_type}:{button_text}")]
+    ]
+
     await update.message.reply_photo(
         photo=random_content[6],
         caption=caption_text,
         parse_mode=ParseMode.HTML,
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text=f"Посилання на {button_text}", url=random_content[3])]]
-        ),
+        reply_markup=InlineKeyboardMarkup(keyboard),
     )
 
     await context.bot.delete_message(
         chat_id=update.message.chat.id, message_id=waitMessage.message_id
     )
-
 async def movie_command(update: Update, context) -> None:
     logger.info(update)
     await build_tg_message(update, context, "filmy", "фільм")
