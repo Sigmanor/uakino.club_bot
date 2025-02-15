@@ -31,6 +31,7 @@ async def start_command(update: Update, context) -> None:
 
 
 async def build_tg_message(update: Update, context, content_type: str, button_text: str) -> None:
+    logger = logging.getLogger(__name__)
     register_user(update)
     waitMessage = await update.message.reply_text(f"Шукаю {button_text} 🧐")
     random_content = get_random_content(content_type)
@@ -42,9 +43,15 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
     )
 
     keyboard = [
-        [InlineKeyboardButton(text=f"Посилання на {button_text}", url=random_content[3])],
+        [InlineKeyboardButton(
+            text=f"Посилання на {button_text}", 
+            url=random_content[3],
+            callback_data=f"link:{content_type}:{button_text}"  # This won't trigger for URL buttons
+        )],
         [InlineKeyboardButton(text=f"Ще один {button_text}", callback_data=f"another:{content_type}:{button_text}")]
     ]
+
+    logger.info(f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}")
 
     await update.message.reply_photo(
         photo=random_content[6],
