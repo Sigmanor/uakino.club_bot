@@ -41,6 +41,9 @@ async def error_handler(update: Update, context) -> None:
 
 
 async def another_handler(update: Update, context) -> None:
+    logger = logging.getLogger(__name__)
+    logger.info(f"User {update.effective_user.id} clicked 'Ще один' button. Callback data: {update.callback_query.data}")
+    
     # Обробка callback з даними у форматі "another:<content_type>:<button_text>"
     data = update.callback_query.data  # наприклад: "another:filmy:фільм"
     try:
@@ -76,9 +79,15 @@ async def another_handler(update: Update, context) -> None:
     )
 
     new_keyboard = [
-        [InlineKeyboardButton(text=f"Посилання на {button_text}", url=random_content[3])],
+        [InlineKeyboardButton(
+            text=f"Посилання на {button_text}", 
+            url=random_content[3],
+            callback_data=f"link:{content_type}:{button_text}"  # This won't trigger for URL buttons
+        )],
         [InlineKeyboardButton(text=f"Ще один {button_text}", callback_data=f"another:{content_type}:{button_text}")]
     ]
+    
+    logger.info(f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}")
 
     await message.reply_photo(
         photo=random_content[6],
@@ -86,8 +95,6 @@ async def another_handler(update: Update, context) -> None:
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(new_keyboard),
     )
-
-
 def main() -> None:
     application = (
         Application.builder()
