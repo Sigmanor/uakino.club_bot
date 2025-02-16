@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.6.0...v1.7.0) (2025-02-16)
+
+
+### Features
+
+* enhance error handling and improve logging in bot.py ([e2caeec](https://github.com/Sigmanor/uakino.club_bot/commit/e2caeecc481cb6120e429a20b331f721d1f69840))
+
 # [1.6.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.5.0...v1.6.0) (2025-02-15)
 
 
