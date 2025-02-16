@@ -43,15 +43,24 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
     )
 
     keyboard = [
-        [InlineKeyboardButton(
-            text=f"Посилання на {button_text}", 
-            url=random_content[3],
-            callback_data=f"link:{content_type}:{button_text}"  # This won't trigger for URL buttons
-        )],
-        [InlineKeyboardButton(text=f"Ще один {button_text}", callback_data=f"another:{content_type}:{button_text}")]
+        [
+            InlineKeyboardButton(
+                text=f"Посилання на {button_text}",
+                url=random_content[3],
+                callback_data=f"link:{content_type}:{button_text}",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f"Ще один {button_text}",
+                callback_data=f"another:{content_type}:{button_text}",
+            )
+        ],
     ]
 
-    logger.info(f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}")
+    logger.info(
+        f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}"
+    )
 
     await update.message.reply_photo(
         photo=random_content[6],
@@ -63,6 +72,8 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
     await context.bot.delete_message(
         chat_id=update.message.chat.id, message_id=waitMessage.message_id
     )
+
+
 async def movie_command(update: Update, context) -> None:
     logger.info(update)
     await build_tg_message(update, context, "filmy", "фільм")

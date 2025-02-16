@@ -11,7 +11,7 @@ from commands import (
     broadcast_command,
     db_command,
 )
-from content_fetcher import get_random_content  # використовується в новому handler
+from content_fetcher import get_random_content
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -50,19 +50,16 @@ async def another_handler(update: Update, context) -> None:
         f"User {update.effective_user.id} clicked 'Ще один' button. Callback data: {update.callback_query.data}"
     )
 
-    # Обробка callback з даними у форматі "another:<content_type>:<button_text>"
-    data = update.callback_query.data  # наприклад: "another:filmy:фільм"
+    data = update.callback_query.data
     try:
         _, content_type, button_text = data.split(":", 2)
     except ValueError:
         return
 
-    # Відповідаємо, щоб зник спіннер на кнопці
     await update.callback_query.answer()
 
     message = update.callback_query.message
 
-    # Оновлюємо inline-клавіатуру: змінюємо текст кнопки "Ще один..."
     keyboard = message.reply_markup.inline_keyboard if message.reply_markup else []
     new_keyboard = []
     for row in keyboard:
@@ -76,7 +73,6 @@ async def another_handler(update: Update, context) -> None:
         new_keyboard.append(new_row)
     await message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(new_keyboard))
 
-    # Генеруємо новий контент
     random_content = get_random_content(content_type)
     caption_text = (
         f"<b>{random_content[0]} ({random_content[1]})</b>\n\n"
@@ -89,7 +85,7 @@ async def another_handler(update: Update, context) -> None:
             InlineKeyboardButton(
                 text=f"Посилання на {button_text}",
                 url=random_content[3],
-                callback_data=f"link:{content_type}:{button_text}",  # This won't trigger for URL buttons
+                callback_data=f"link:{content_type}:{button_text}",
             )
         ],
         [
@@ -129,7 +125,6 @@ def main() -> None:
     application.add_handler(CommandHandler("add", broadcast_command))
     application.add_handler(CommandHandler("db", db_command))
 
-    # Додаємо callback handler для "Ще один ..." кнопки
     application.add_handler(CallbackQueryHandler(another_handler, pattern=r"^another:"))
     application.add_error_handler(error_handler)
     application.run_polling()
