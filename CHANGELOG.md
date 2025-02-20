@@ -1,3 +1,14 @@
+## [1.7.1](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.0...v1.7.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* enhance deployment script with error handling and cleanup steps ([c9f6b2d](https://github.com/Sigmanor/uakino.club_bot/commit/c9f6b2d84b4bc08b60ace7e3633566fb1774989f))
+* handle Forbidden error in error handler ([9decce5](https://github.com/Sigmanor/uakino.club_bot/commit/9decce58e0c128722e96dd4ab6a72a991f03efef))
+* implement retry logic for content fetching and enhance error handling ([72f8caf](https://github.com/Sigmanor/uakino.club_bot/commit/72f8caf1c80e5e69328298fd2cc21533bb37440d))
+* rename deployment workflow for clarity ([bf16937](https://github.com/Sigmanor/uakino.club_bot/commit/bf169371e4fe0f35efbea68697f3b95d430337c4))
+* update deployment script to remove old installation without sudo ([0e75f2d](https://github.com/Sigmanor/uakino.club_bot/commit/0e75f2da541ba78037ba87f88af7675b28d866af))
+
 # [1.7.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.6.0...v1.7.0) (2025-02-16)
 
 
