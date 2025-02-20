@@ -21,8 +21,8 @@ jobs:
           
           cd $HOME/apps/
           
-          # Clean up old installation using rm without sudo
-          rm -rf uakino.club_bot || {
+          # Clean up old installation using sudo with password
+          echo '${{ secrets.SSH_PASSWORD }}' | sudo -S rm -rf uakino.club_bot || {
             echo "Failed to remove old directory"
             exit 1
           }
@@ -58,4 +58,4 @@ jobs:
           fi
           
           cd ~
-          rm -rf uakino.club_bot
+          echo '${{ secrets.SSH_PASSWORD }}' | sudo -S rm -rf uakino.club_bot
