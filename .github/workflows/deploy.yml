@@ -1,4 +1,4 @@
-name: CD for uakino.club_bot
+name: Deploy
 
 on:
   push:
