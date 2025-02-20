@@ -1,7 +1,7 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
-from telegram.error import NetworkError
+from telegram.error import NetworkError, Forbidden
 from config import bot_token
 from commands import (
     start_command,
@@ -39,7 +39,7 @@ async def error_handler(update: Update, context) -> None:
         logger.info("Network error occurred. Continuing operation...")
         return
 
-    if isinstance(context.error, telegram.error.Forbidden):
+    if isinstance(context.error, Forbidden):
         logger.warning(f"Forbidden error occurred: {context.error}. User blocked the bot.")
         return
 
