@@ -21,11 +21,11 @@ jobs:
           
           cd $HOME/apps/
           
-          # Clean up old installation
-          if ! sudo rm -rf uakino.club_bot; then
+          # Clean up old installation using rm without sudo
+          rm -rf uakino.club_bot || {
             echo "Failed to remove old directory"
             exit 1
-          fi
+          }
           
           # Clone repository
           if ! git clone https://github.com/${{ github.repository }}; then
@@ -58,4 +58,4 @@ jobs:
           fi
           
           cd ~
-          sudo rm -rf uakino.club_bot
+          rm -rf uakino.club_bot
