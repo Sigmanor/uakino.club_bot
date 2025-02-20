@@ -1,3 +1,12 @@
+## [1.7.2](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.1...v1.7.2) (2025-02-20)
+
+
+### Bug Fixes
+
+* enhance another_handler to generate new content and update inline keyboard ([1a5429e](https://github.com/Sigmanor/uakino.club_bot/commit/1a5429e34b814c411fd1479eea435c8bdb08e30d))
+* simplify inline keyboard construction and improve logging format ([c12214c](https://github.com/Sigmanor/uakino.club_bot/commit/c12214c3e65d2bc4501e41dfb04672752bd1ea2c))
+* streamline content fetching by removing retry logic and improving pagination handling ([f5bd6bb](https://github.com/Sigmanor/uakino.club_bot/commit/f5bd6bbf46e3f3e21dc743775ab30e160515007c))
+
 ## [1.7.1](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.0...v1.7.1) (2025-02-20)
 
 
