@@ -17,12 +17,45 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         password: ${{ secrets.SSH_PASSWORD }}
         script: |
+          set -e  # Exit on any error
+          
           cd $HOME/apps/
-          rm -rf uakino.club_bot
-          git clone https://github.com/${{ github.repository }}
+          
+          # Clean up old installation
+          if ! sudo rm -rf uakino.club_bot; then
+            echo "Failed to remove old directory"
+            exit 1
+          fi
+          
+          # Clone repository
+          if ! git clone https://github.com/${{ github.repository }}; then
+            echo "Failed to clone repository"
+            exit 1
+          fi
+          
           cd $HOME/apps/uakino.club_bot
-          echo "${{ secrets.ENV_PROD }}" > .env
-          docker compose --project-name uakinoclub_bot down -v --rmi all
-          docker compose up -d
+          
+          # Create env file
+          if ! echo "${{ secrets.ENV_PROD }}" > .env; then
+            echo "Failed to create .env file"
+            exit 1
+          fi
+          
+          # Check and run docker compose
+          if [ -f "docker-compose.yml" ]; then
+            if ! docker compose --project-name uakinoclub_bot down -v --rmi all; then
+              echo "Failed to stop old containers"
+              exit 1
+            fi
+            
+            if ! docker compose up -d; then
+              echo "Failed to start containers"
+              exit 1
+            fi
+          else
+            echo "docker-compose.yml not found"
+            exit 1
+          fi
+          
           cd ~
-          rm -rf uakino.club_bot
+          sudo rm -rf uakino.club_bot
