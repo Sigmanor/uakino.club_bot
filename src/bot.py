@@ -1,9 +1,10 @@
 import logging
+import asyncio  # Missing import for health_check function
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from telegram.error import NetworkError, Forbidden, TimedOut
-from config import bot_token
-from commands import (
+from .config import bot_token
+from .commands import (
     start_command,
     movie_command,
     cartoon_command,
@@ -11,7 +12,7 @@ from commands import (
     broadcast_command,
     db_command,
 )
-from content_fetcher import get_random_content
+from .content_fetcher import get_random_content
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
