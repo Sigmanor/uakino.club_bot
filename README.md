@@ -82,6 +82,13 @@ docker compose up -d
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 🧪 Testing
+Run the tests with:
+
+```bash
+python -m pytest __tests__
+```
+
 ## 🤝 Support
 
 If you encounter any problems or have suggestions, please [open an issue](https://github.com/Sigmanor/uakino.club_bot/issues).

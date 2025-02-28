@@ -12,5 +12,5 @@ services:
       - .env
     volumes:
       - type: bind
-        source: ./data
-        target: /app/data
+        source: ./db
+        target: /app/db

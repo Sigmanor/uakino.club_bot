@@ -3,13 +3,25 @@ from datetime import datetime
 import os
 
 
+def adapt_datetime(dt):
+    return dt.isoformat()
+
+
+def convert_datetime(s):
+    return datetime.fromisoformat(s)
+
+
+sqlite3.register_adapter(datetime, adapt_datetime)
+sqlite3.register_converter("TIMESTAMP", convert_datetime)
+
+
 class Database:
     def __init__(self):
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(base_dir, "data")
-        os.makedirs(data_dir, exist_ok=True)
-        db_path = os.path.join(data_dir, "bot.db")
-        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        db_dir = os.path.join(base_dir, "db")
+        os.makedirs(db_dir, exist_ok=True)
+        db_path = os.path.join(db_dir, "bot.db")
+        self.conn = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         self.create_tables()
 
     def create_tables(self):

@@ -46,7 +46,7 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
         [InlineKeyboardButton(
             text=f"Посилання на {button_text}", 
             url=random_content[3],
-            callback_data=f"link:{content_type}:{button_text}"  # This won't trigger for URL buttons
+            callback_data=f"link:{content_type}:{button_text}"
         )],
         [InlineKeyboardButton(text=f"Ще один {button_text}", callback_data=f"another:{content_type}:{button_text}")]
     ]

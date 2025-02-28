@@ -1,29 +1,46 @@
 import requests
 from bs4 import BeautifulSoup
-from utils import random_number
+from .utils import random_number
 from contextlib import suppress
-from config import uakino_url
+from .config import uakino_url
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def create_session():
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    return session
 
 
 def get_content_on_page(category):
+    session = create_session()
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
     }
 
-    url = f"https://{uakino_url}/{category}/f/c.year=1921,2022/sort=d.year;desc/"
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, "html.parser")
+    try:
+        url = f"https://{uakino_url}/{category}/f/c.year=1921,2022/sort=d.year;desc/"
+        response = session.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
 
-    pages_count = soup.select_one(
-        "#dle-content > center > div.pagi-nav.clearfix > span.navigation > a:nth-child(12)"
-    )
+        pages_count = soup.select_one(
+            "#dle-content > center > div.pagi-nav.clearfix > span.navigation > a:nth-child(12)"
+        )
 
-    movie_items = soup.select(".movie-item")
-    random_page = random_number(1, int(pages_count.get_text().strip()))
-    random_content = random_number(1, len(movie_items))
+        movie_items = soup.select(".movie-item")
+        random_page = random_number(1, int(pages_count.get_text().strip()))
+        random_content = random_number(1, len(movie_items))
 
-    return [random_page, random_content]
+        return [random_page, random_content]
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching content: {e}")
+        raise
 
 
 def get_random_content(category):
