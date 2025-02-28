@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.3...v1.8.0) (2025-02-28)
+
+
+### Bug Fixes
+
+* add missing asyncio import and update import statements to use relative paths ([6f5fde8](https://github.com/Sigmanor/uakino.club_bot/commit/6f5fde845c6298fe35e04a48044d854ff387c6c3))
+* update Dockerfile to use module syntax for bot execution ([cdaf275](https://github.com/Sigmanor/uakino.club_bot/commit/cdaf2756069856d793c2f138221fa11429f36aa2))
+* update import statements to use relative paths in commands.py ([f01e696](https://github.com/Sigmanor/uakino.club_bot/commit/f01e696d702ea3180ffb1b7f829619c859e26b8b))
+
+
+### Features
+
+* add __init__.py to src directory for package initialization ([9bad981](https://github.com/Sigmanor/uakino.club_bot/commit/9bad98189885d1fdfa80a3abfb4f29a835a16df8))
+
 ## [1.7.3](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.2...v1.7.3) (2025-02-28)
 
 
