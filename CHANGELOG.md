@@ -1,3 +1,12 @@
+## [1.7.3](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.2...v1.7.3) (2025-02-28)
+
+
+### Bug Fixes
+
+* allow manual triggering of release workflow ([8353253](https://github.com/Sigmanor/uakino.club_bot/commit/835325345ab3c9fa0b0095b774b18d1e0e911446))
+* update .dockerignore to exclude database files ([42316d4](https://github.com/Sigmanor/uakino.club_bot/commit/42316d4179607cc27927b43652325574643bd87b))
+* update .gitignore to exclude database directory ([0bff07c](https://github.com/Sigmanor/uakino.club_bot/commit/0bff07c016b3cbcb521bf7830a592720702ecfa2))
+
 ## [1.7.2](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.1...v1.7.2) (2025-02-20)
 
 
