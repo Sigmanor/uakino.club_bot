@@ -1,5 +1,5 @@
 import logging
-import asyncio  # Missing import for health_check function
+import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from telegram.error import NetworkError, Forbidden, TimedOut
@@ -102,6 +102,7 @@ async def another_handler(update: Update, context) -> None:
 
 
 async def health_check() -> None:
+    logger = logging.getLogger(__name__)
     while True:
         try:
             await asyncio.sleep(300)
