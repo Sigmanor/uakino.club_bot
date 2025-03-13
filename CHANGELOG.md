@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.0...v1.8.1) (2025-03-13)
+
+
+### Bug Fixes
+
+* add missing logger initialization in health_check function ([7c0d146](https://github.com/Sigmanor/uakino.club_bot/commit/7c0d146fcb7891f4b53805321b3feae3538e5f11))
+
 # [1.8.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.7.3...v1.8.0) (2025-02-28)
 
 
