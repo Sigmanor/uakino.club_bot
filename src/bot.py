@@ -44,7 +44,7 @@ async def error_handler(update: Update, context) -> None:
 async def another_handler(update: Update, context) -> None:
     logger = logging.getLogger(__name__)
     logger.info(
-        f"User {update.effective_user.id} clicked 'Ще один' button. Callback data: {update.callback_query.data}"
+        f"User {update.effective_user.id} clicked button. Callback data: {update.callback_query.data}"
     )
     data = update.callback_query.data
     try:
@@ -74,21 +74,46 @@ async def another_handler(update: Update, context) -> None:
         f"<b>IMDb:</b> {random_content[5]}\n<b>Жанр:</b> {random_content[2]}\n<b>Актори:</b> {random_content[7]}\n\n"
         f"{random_content[4].strip() if len(random_content[4].strip()) > 5 else ''}"
     )
+    
+    # Create base keyboard with link button
     new_keyboard = [
         [
             InlineKeyboardButton(
-                text=f"Посилання на {button_text}",
+                text=f"Посилання на {button_text.lower()}",
                 url=random_content[3],
                 callback_data=f"link:{content_type}:{button_text}",
             )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"Ще один {button_text}",
-                callback_data=f"another:{content_type}:{button_text}",
-            )
-        ],
+        ]
     ]
+
+    # Create fixed-order content type buttons
+    content_row = []
+    button_order = [
+        ("filmy", "Фільм"),
+        ("seriesss", "Серіал"),
+        ("cartoon", "Мульт")
+    ]
+
+    for type_code, type_name in button_order:
+        if type_code == content_type:
+            # Current content type button
+            content_row.append(
+                InlineKeyboardButton(
+                    text=type_name,
+                    callback_data=f"another:{type_code}:{type_name}",
+                )
+            )
+        else:
+            # Other content type buttons
+            content_row.append(
+                InlineKeyboardButton(
+                    text=type_name,
+                    callback_data=f"another:{type_code}:{type_name}"
+                )
+            )
+    
+    new_keyboard.append(content_row)
+
     logger.info(
         f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}"
     )
