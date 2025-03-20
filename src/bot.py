@@ -52,21 +52,9 @@ async def another_handler(update: Update, context) -> None:
     except ValueError:
         return
 
-    await update.callback_query.answer()
+    # Show loading state
+    await update.callback_query.answer(text=f"Шукаю {button_text.lower()}...", show_alert=False)
     message = update.callback_query.message
-
-    keyboard = message.reply_markup.inline_keyboard if message.reply_markup else []
-    new_keyboard = []
-    for row in keyboard:
-        new_row = []
-        for btn in row:
-            if btn.callback_data == data:
-                new_text = btn.text + " ⌛"
-                new_row.append(InlineKeyboardButton(text=new_text, callback_data="disabled"))
-            else:
-                new_row.append(btn)
-        new_keyboard.append(new_row)
-    await message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(new_keyboard))
 
     random_content = get_random_content(content_type)
     caption_text = (
