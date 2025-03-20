@@ -42,21 +42,44 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
         f"{random_content[4] if len(random_content[4].strip()) > 5 else ''}"
     )
 
+    # Create link button row
     keyboard = [
         [
             InlineKeyboardButton(
-                text=f"Посилання на {button_text}",
+                text=f"Посилання на {button_text.lower()}",
                 url=random_content[3],
                 callback_data=f"link:{content_type}:{button_text}",
             )
-        ],
-        [
-            InlineKeyboardButton(
-                text=f"Ще один {button_text}",
-                callback_data=f"another:{content_type}:{button_text}",
-            )
-        ],
+        ]
     ]
+
+    # Create fixed-order content type buttons
+    content_row = []
+    button_order = [
+        ("filmy", "Фільм"),
+        ("seriesss", "Серіал"),
+        ("cartoon", "Мульт")
+    ]
+
+    for type_code, type_name in button_order:
+        if type_code == content_type:
+            # Current content type button
+            content_row.append(
+                InlineKeyboardButton(
+                    text=type_name,
+                    callback_data=f"another:{type_code}:{type_name}",
+                )
+            )
+        else:
+            # Other content type buttons
+            content_row.append(
+                InlineKeyboardButton(
+                    text=type_name,
+                    callback_data=f"another:{type_code}:{type_name}"
+                )
+            )
+    
+    keyboard.append(content_row)
 
     logger.info(
         f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}"
@@ -76,17 +99,17 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
 
 async def movie_command(update: Update, context) -> None:
     logger.info(update)
-    await build_tg_message(update, context, "filmy", "фільм")
+    await build_tg_message(update, context, "filmy", "Фільм")
 
 
 async def cartoon_command(update: Update, context) -> None:
     logger.info(update)
-    await build_tg_message(update, context, "cartoon", "мультфільм")
+    await build_tg_message(update, context, "cartoon", "Мульт")
 
 
 async def serial_command(update: Update, context) -> None:
     logger.info(update)
-    await build_tg_message(update, context, "seriesss", "серіал")
+    await build_tg_message(update, context, "seriesss", "Серіал")
 
 
 async def broadcast_command(update: Update, context) -> None:
