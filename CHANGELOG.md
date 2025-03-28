@@ -1,3 +1,11 @@
+## [1.8.2](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.1...v1.8.2) (2025-03-28)
+
+
+### Bug Fixes
+
+* correct base directory path in Database initialization ([91db47b](https://github.com/Sigmanor/uakino.club_bot/commit/91db47b84a9070ce4862c7f6b8cdcb803023e1b8))
+* enhance error handling and bot restart logic for network issues ([5e2eb97](https://github.com/Sigmanor/uakino.club_bot/commit/5e2eb9753106207c09c2c10b55569f1a904d1924))
+
 ## [1.8.1](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.0...v1.8.1) (2025-03-13)
 
 
