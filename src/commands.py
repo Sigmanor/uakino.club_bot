@@ -42,7 +42,6 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
         f"{random_content[4] if len(random_content[4].strip()) > 5 else ''}"
     )
 
-    # Create link button row
     keyboard = [
         [
             InlineKeyboardButton(
@@ -53,7 +52,6 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
         ]
     ]
 
-    # Create fixed-order content type buttons
     content_row = []
     button_order = [
         ("filmy", "Фільм"),
@@ -63,7 +61,6 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
 
     for type_code, type_name in button_order:
         if type_code == content_type:
-            # Current content type button
             content_row.append(
                 InlineKeyboardButton(
                     text=type_name,
@@ -71,7 +68,6 @@ async def build_tg_message(update: Update, context, content_type: str, button_te
                 )
             )
         else:
-            # Other content type buttons
             content_row.append(
                 InlineKeyboardButton(
                     text=type_name,
