@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import time
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from telegram.error import NetworkError, Forbidden, TimedOut
@@ -34,11 +35,21 @@ async def post_init(application: Application) -> None:
 
 async def error_handler(update: Update, context) -> None:
     logger = logging.getLogger(__name__)
-    logger.error("Exception while handling an update:", exc_info=context.error)
+    error = context.error
 
-    if isinstance(context.error, NetworkError):
-        logger.info("Network error occurred. Continuing operation...")
-        return
+    if isinstance(error, (NetworkError, TimedOut)):
+        logger.warning(f"Network error occurred: {error}")
+        # Спроба перезапустити бота
+        try:
+            if context.application.running:
+                await context.application.stop()
+            await context.application.initialize()
+            await context.application.start()
+            logger.info("Bot successfully restarted after network error")
+        except Exception as e:
+            logger.error(f"Failed to restart bot: {e}")
+    else:
+        logger.error("Exception while handling an update:", exc_info=error)
 
 
 async def another_handler(update: Update, context) -> None:
@@ -52,7 +63,6 @@ async def another_handler(update: Update, context) -> None:
     except ValueError:
         return
 
-    # Show loading state
     await update.callback_query.answer(text=f"Шукаю {button_text.lower()}...", show_alert=False)
     message = update.callback_query.message
 
@@ -63,7 +73,6 @@ async def another_handler(update: Update, context) -> None:
         f"{random_content[4].strip() if len(random_content[4].strip()) > 5 else ''}"
     )
     
-    # Create base keyboard with link button
     new_keyboard = [
         [
             InlineKeyboardButton(
@@ -74,7 +83,6 @@ async def another_handler(update: Update, context) -> None:
         ]
     ]
 
-    # Create fixed-order content type buttons
     content_row = []
     button_order = [
         ("filmy", "Фільм"),
@@ -84,7 +92,6 @@ async def another_handler(update: Update, context) -> None:
 
     for type_code, type_name in button_order:
         if type_code == content_type:
-            # Current content type button
             content_row.append(
                 InlineKeyboardButton(
                     text=type_name,
@@ -92,7 +99,6 @@ async def another_handler(update: Update, context) -> None:
                 )
             )
         else:
-            # Other content type buttons
             content_row.append(
                 InlineKeyboardButton(
                     text=type_name,
@@ -129,13 +135,15 @@ def main() -> None:
         Application.builder()
         .token(bot_token)
         .post_init(post_init)
-        .read_timeout(15)
-        .write_timeout(15)
-        .connect_timeout(15)
-        .get_updates_read_timeout(42)
+        .read_timeout(30)        # Збільшуємо таймаути
+        .write_timeout(30)
+        .connect_timeout(30)
+        .pool_timeout(30)        # Додаємо pool_timeout
+        .get_updates_read_timeout(60)
         .build()
     )
 
+    # Додаємо обробники
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("movie", movie_command))
     application.add_handler(CommandHandler("serial", serial_command))
@@ -145,7 +153,17 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(another_handler, pattern=r"^another:"))
     application.add_error_handler(error_handler)
 
-    application.run_polling()
+    while True:
+        try:
+            application.run_polling(
+                drop_pending_updates=True,
+                allowed_updates=Update.ALL_TYPES,
+                close_loop=False
+            )
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.error(f"Bot crashed: {e}")
+            time.sleep(10)  # Чекаємо перед перезапуском
 
 
 if __name__ == "__main__":
