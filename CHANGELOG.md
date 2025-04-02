@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.2...v1.8.3) (2025-04-02)
+
+
+### Bug Fixes
+
+* improve bot restart and timeout handling ([ef1f162](https://github.com/Sigmanor/uakino.club_bot/commit/ef1f162fbfedaac3685472123a3c8bef4b3470e0))
+
 ## [1.8.2](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.1...v1.8.2) (2025-03-28)
 
 
