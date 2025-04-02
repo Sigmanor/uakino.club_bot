@@ -14,3 +14,14 @@ services:
       - type: bind
         source: ./db
         target: /app/db
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('https://api.telegram.org')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
