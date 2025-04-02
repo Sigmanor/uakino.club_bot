@@ -39,15 +39,18 @@ async def error_handler(update: Update, context) -> None:
 
     if isinstance(error, (NetworkError, TimedOut)):
         logger.warning(f"Network error occurred: {error}")
-        # Спроба перезапустити бота
+        await asyncio.sleep(1)
         try:
             if context.application.running:
                 await context.application.stop()
+                await asyncio.sleep(2)
             await context.application.initialize()
             await context.application.start()
             logger.info("Bot successfully restarted after network error")
         except Exception as e:
             logger.error(f"Failed to restart bot: {e}")
+            import sys
+            sys.exit(1)
     else:
         logger.error("Exception while handling an update:", exc_info=error)
 
@@ -135,15 +138,14 @@ def main() -> None:
         Application.builder()
         .token(bot_token)
         .post_init(post_init)
-        .read_timeout(30)        # Збільшуємо таймаути
-        .write_timeout(30)
-        .connect_timeout(30)
-        .pool_timeout(30)        # Додаємо pool_timeout
-        .get_updates_read_timeout(60)
+        .read_timeout(60)
+        .write_timeout(60)
+        .connect_timeout(60)
+        .pool_timeout(60)
+        .get_updates_read_timeout(120)
         .build()
     )
 
-    # Додаємо обробники
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("movie", movie_command))
     application.add_handler(CommandHandler("serial", serial_command))
@@ -158,12 +160,15 @@ def main() -> None:
             application.run_polling(
                 drop_pending_updates=True,
                 allowed_updates=Update.ALL_TYPES,
-                close_loop=False
+                close_loop=False,
+                pool_timeout=60,
+                read_timeout=60,
+                write_timeout=60
             )
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.error(f"Bot crashed: {e}")
-            time.sleep(10)  # Чекаємо перед перезапуском
+            time.sleep(10)
 
 
 if __name__ == "__main__":
