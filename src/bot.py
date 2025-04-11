@@ -48,8 +48,10 @@ async def error_handler(update: Update, context: CallbackContext) -> None:
         await asyncio.sleep(15)
         try:
             if context.application.running:
-                await context.application.stop()
+                 await context.application.stop()
+                 await context.application.initialize()
             await context.application.start()
+            await context.application.updater.start_polling()
             logger.info("Bot successfully restarted after network error")
         except Exception as e:
             logger.error(f"Failed to restart bot: {e}")
@@ -157,8 +159,7 @@ def main() -> None:
         while True:
             try:
                 await application.initialize()
-                await application.start()
-                await application.run_until_stopped()
+                await application.start()               
             except Exception as e:
                 logger = logging.getLogger(__name__)
                 logger.error(f"Bot crashed: {e}")
