@@ -1,9 +1,16 @@
 import logging
 import asyncio
 import time
+from typing import List, Tuple, Any
+
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler
-from telegram.error import NetworkError, Forbidden, TimedOut
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    CallbackQueryHandler,
+    CallbackContext,
+)
+from telegram.error import NetworkError, TimedOut, BadRequest
 from .config import bot_token
 from .commands import (
     start_command,
@@ -33,29 +40,28 @@ async def post_init(application: Application) -> None:
     )
 
 
-async def error_handler(update: Update, context) -> None:
+async def error_handler(update: Update, context: CallbackContext) -> None:
     logger = logging.getLogger(__name__)
     error = context.error
-
     if isinstance(error, (NetworkError, TimedOut)):
         logger.warning(f"Network error occurred: {error}")
-        await asyncio.sleep(1)
+        await asyncio.sleep(15)
         try:
             if context.application.running:
                 await context.application.stop()
-                await asyncio.sleep(2)
-            await context.application.initialize()
             await context.application.start()
             logger.info("Bot successfully restarted after network error")
         except Exception as e:
             logger.error(f"Failed to restart bot: {e}")
             import sys
             sys.exit(1)
+    elif isinstance(error, BadRequest):
+        logger.error(f"Bad Request: {error}")
     else:
         logger.error("Exception while handling an update:", exc_info=error)
 
 
-async def another_handler(update: Update, context) -> None:
+async def another_handler(update: Update, context: CallbackContext) -> None:
     logger = logging.getLogger(__name__)
     logger.info(
         f"User {update.effective_user.id} clicked button. Callback data: {update.callback_query.data}"
@@ -69,14 +75,14 @@ async def another_handler(update: Update, context) -> None:
     await update.callback_query.answer(text=f"Шукаю {button_text.lower()}...", show_alert=False)
     message = update.callback_query.message
 
-    random_content = get_random_content(content_type)
-    caption_text = (
+    random_content: List[Any] = get_random_content(content_type)
+    caption_text: str = (
         f"<b>{random_content[0]} ({random_content[1]})</b>\n\n"
         f"<b>IMDb:</b> {random_content[5]}\n<b>Жанр:</b> {random_content[2]}\n<b>Актори:</b> {random_content[7]}\n\n"
         f"{random_content[4].strip() if len(random_content[4].strip()) > 5 else ''}"
     )
-    
-    new_keyboard = [
+
+    new_keyboard: List[List[InlineKeyboardButton]] = [
         [
             InlineKeyboardButton(
                 text=f"Посилання на {button_text.lower()}",
@@ -86,29 +92,20 @@ async def another_handler(update: Update, context) -> None:
         ]
     ]
 
-    content_row = []
-    button_order = [
+    content_row: List[InlineKeyboardButton] = []
+    button_order: List[Tuple[str, str]] = [
         ("filmy", "Фільм"),
         ("seriesss", "Серіал"),
-        ("cartoon", "Мульт")
+        ("cartoon", "Мульт"),
     ]
 
     for type_code, type_name in button_order:
-        if type_code == content_type:
-            content_row.append(
-                InlineKeyboardButton(
-                    text=type_name,
-                    callback_data=f"another:{type_code}:{type_name}",
-                )
+        content_row.append(
+            InlineKeyboardButton(
+                text=type_name,
+                callback_data=f"another:{type_code}:{type_name}",
             )
-        else:
-            content_row.append(
-                InlineKeyboardButton(
-                    text=type_name,
-                    callback_data=f"another:{type_code}:{type_name}"
-                )
-            )
-    
+        )
     new_keyboard.append(content_row)
 
     logger.info(
@@ -121,6 +118,7 @@ async def another_handler(update: Update, context) -> None:
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(new_keyboard),
     )
+    await asyncio.sleep(0.5)
 
 
 async def health_check() -> None:
@@ -155,21 +153,17 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(another_handler, pattern=r"^another:"))
     application.add_error_handler(error_handler)
 
-    while True:
-        try:
-            application.run_polling(
-                drop_pending_updates=True,
-                allowed_updates=Update.ALL_TYPES,
-                close_loop=False,
-                pool_timeout=60,
-                read_timeout=60,
-                write_timeout=60
-            )
-        except Exception as e:
-            logger = logging.getLogger(__name__)
-            logger.error(f"Bot crashed: {e}")
-            time.sleep(10)
+    async def run_bot():
+        while True:
+            try:
+                await application.start()
+                await application.run_until_stopped()
+            except Exception as e:
+                logger = logging.getLogger(__name__)
+                logger.error(f"Bot crashed: {e}")
+                await asyncio.sleep(15)
 
+    asyncio.run(run_bot())
 
 if __name__ == "__main__":
     main()
