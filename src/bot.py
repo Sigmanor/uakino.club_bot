@@ -156,6 +156,7 @@ def main() -> None:
     async def run_bot():
         while True:
             try:
+                await application.initialize()
                 await application.start()
                 await application.run_until_stopped()
             except Exception as e:
