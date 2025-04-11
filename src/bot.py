@@ -45,18 +45,8 @@ async def error_handler(update: Update, context: CallbackContext) -> None:
     error = context.error
     if isinstance(error, (NetworkError, TimedOut)):
         logger.warning(f"Network error occurred: {error}")
-        await asyncio.sleep(15)
-        try:
-            if context.application.running:
-                 await context.application.stop()
-                 await context.application.initialize()
-            await context.application.start()
-            await context.application.updater.start_polling()
-            logger.info("Bot successfully restarted after network error")
-        except Exception as e:
-            logger.error(f"Failed to restart bot: {e}")
-            import sys
-            sys.exit(1)
+        # Just log the error - the main loop will handle restarting if needed
+        logger.info("Network error will be handled by main loop")
     elif isinstance(error, BadRequest):
         logger.error(f"Bad Request: {error}")
     else:
@@ -156,16 +146,38 @@ def main() -> None:
     application.add_error_handler(error_handler)
 
     async def run_bot():
+        logger = logging.getLogger(__name__)
         while True:
             try:
-                await application.initialize()
-                await application.start()               
+                # Only initialize if not already initialized
+                if not application.running:
+                    await application.initialize()
+                    await application.start()
+                    await application.updater.start_polling()
+                    logger.info("Bot started successfully")
+
+                # Add health check task
+                asyncio.create_task(health_check())
+
+                # Keep the bot running
+                while application.running:
+                    await asyncio.sleep(1)
+
             except Exception as e:
-                logger = logging.getLogger(__name__)
                 logger.error(f"Bot crashed: {e}")
+                # Try to properly shut down the application if it's running
+                if application.running:
+                    try:
+                        await application.stop()
+                        logger.info("Application stopped after error")
+                    except Exception as shutdown_error:
+                        logger.error(f"Error during shutdown: {shutdown_error}")
+
+                # Wait before attempting to restart
                 await asyncio.sleep(15)
 
     asyncio.run(run_bot())
+
 
 if __name__ == "__main__":
     main()
