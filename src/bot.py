@@ -1,6 +1,5 @@
 import logging
 import asyncio
-import time
 from typing import List, Tuple, Any
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -40,7 +39,7 @@ async def post_init(application: Application) -> None:
     )
 
 
-async def error_handler(update: Update, context: CallbackContext) -> None:
+async def error_handler(_: Update, context: CallbackContext) -> None:
     logger = logging.getLogger(__name__)
     error = context.error
     if isinstance(error, (NetworkError, TimedOut)):
@@ -64,10 +63,51 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
     except ValueError:
         return
 
-    # Send a message that will be deleted later instead of showing a notification
+    # Get the current message with the buttons
     message = update.callback_query.message
+
+    # Create a new keyboard with disabled buttons
+    disabled_keyboard: List[List[InlineKeyboardButton]] = []
+
+    # Copy the first row (link button) if it exists
+    if (
+        message.reply_markup
+        and message.reply_markup.inline_keyboard
+        and len(message.reply_markup.inline_keyboard) > 0
+    ):
+        first_row = message.reply_markup.inline_keyboard[0]
+        disabled_keyboard.append(first_row)
+
+    # Create disabled content buttons row
+    disabled_content_row: List[InlineKeyboardButton] = []
+    button_order: List[Tuple[str, str]] = [
+        ("filmy", "Фільм"),
+        ("seriesss", "Серіал"),
+        ("cartoon", "Мульт"),
+    ]
+
+    for type_code, type_name in button_order:
+        # Add "⏳" only to the button that was clicked
+        if type_code == content_type:
+            button_text_disabled = f"{type_name} ⏳"  # Add loading indicator to clicked button
+        else:
+            button_text_disabled = type_name  # Keep other buttons normal
+
+        disabled_content_row.append(
+            InlineKeyboardButton(
+                text=button_text_disabled,
+                callback_data="disabled",  # Disabled callback
+            )
+        )
+    disabled_keyboard.append(disabled_content_row)
+
+    # Update the message with disabled buttons
+    await message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(disabled_keyboard))
+
+    # Send a message that will be deleted later
     waitMessage = await message.reply_text(f"Шукаю {button_text.lower()} 🧐")
 
+    # Fetch content
     random_content: List[Any] = get_random_content(content_type)
     caption_text: str = (
         f"<b>{random_content[0]} ({random_content[1]})</b>\n\n"
@@ -75,6 +115,7 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
         f"{random_content[4].strip() if len(random_content[4].strip()) > 5 else ''}"
     )
 
+    # Create new keyboard with active buttons for the new message
     new_keyboard: List[List[InlineKeyboardButton]] = [
         [
             InlineKeyboardButton(
@@ -86,12 +127,6 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
     ]
 
     content_row: List[InlineKeyboardButton] = []
-    button_order: List[Tuple[str, str]] = [
-        ("filmy", "Фільм"),
-        ("seriesss", "Серіал"),
-        ("cartoon", "Мульт"),
-    ]
-
     for type_code, type_name in button_order:
         content_row.append(
             InlineKeyboardButton(
@@ -105,6 +140,7 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
         f"User {update.effective_user.id} received link to {button_text}: {random_content[3]}"
     )
 
+    # Send new message with content and active buttons
     await message.reply_photo(
         photo=random_content[6],
         caption=caption_text,
@@ -116,6 +152,12 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
     await context.bot.delete_message(chat_id=message.chat.id, message_id=waitMessage.message_id)
 
     await asyncio.sleep(0.5)
+
+
+async def disabled_button_handler(update: Update, _: CallbackContext) -> None:
+    # This handler is called when a user clicks on a disabled button
+    # Just answer the callback query without any message
+    await update.callback_query.answer()
 
 
 async def health_check() -> None:
@@ -148,6 +190,7 @@ def main() -> None:
     application.add_handler(CommandHandler("add", broadcast_command))
     application.add_handler(CommandHandler("db", db_command))
     application.add_handler(CallbackQueryHandler(another_handler, pattern=r"^another:"))
+    application.add_handler(CallbackQueryHandler(disabled_button_handler, pattern=r"^disabled"))
     application.add_error_handler(error_handler)
 
     async def run_bot():
