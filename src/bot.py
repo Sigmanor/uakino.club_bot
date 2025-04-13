@@ -64,8 +64,9 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
     except ValueError:
         return
 
-    await update.callback_query.answer(text=f"Шукаю {button_text.lower()}...", show_alert=False)
+    # Send a message that will be deleted later instead of showing a notification
     message = update.callback_query.message
+    waitMessage = await message.reply_text(f"Шукаю {button_text.lower()} 🧐")
 
     random_content: List[Any] = get_random_content(content_type)
     caption_text: str = (
@@ -110,6 +111,10 @@ async def another_handler(update: Update, context: CallbackContext) -> None:
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(new_keyboard),
     )
+
+    # Delete the wait message
+    await context.bot.delete_message(chat_id=message.chat.id, message_id=waitMessage.message_id)
+
     await asyncio.sleep(0.5)
 
 
