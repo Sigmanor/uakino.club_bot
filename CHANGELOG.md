@@ -1,3 +1,11 @@
+# [1.9.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.3...v1.9.0) (2025-04-13)
+
+
+### Features
+
+* add disabled button handler for content search ([c4e9607](https://github.com/Sigmanor/uakino.club_bot/commit/c4e9607329e97fed06f2211a2488b9066447af6d))
+* improve the notification mechanism to send a temporary message that is deleted after use ([2d2c302](https://github.com/Sigmanor/uakino.club_bot/commit/2d2c302c6472fae906ac4064d844f84d5ee3caaa))
+
 ## [1.8.3](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.2...v1.8.3) (2025-04-02)
 
 
