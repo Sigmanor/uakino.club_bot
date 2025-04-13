@@ -1,11 +1,18 @@
+<div align="center">
+
 # uakino.club_bot 🎬
 
-[![EN](https://img.shields.io/badge/Language-English-red.svg)](README.md) [![UA](https://img.shields.io/badge/Language-Ukrainian-yellow.svg)](README_UA.md)
+<h3>Readme Language</h3>
+
+[![EN](https://img.shields.io/badge/English-c9c9c9.svg)](README.md) [![UA](https://img.shields.io/badge/Ukrainian-0e7837.svg)](README_UA.md)
 
 Телеграм-бот, який надає випадкові рекомендації фільмів, серіалів та мультфільмів з сайту [uakino.me](https://uakino.me).
 
 [![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+
+</div>
 
 ## 📖 Огляд
 
