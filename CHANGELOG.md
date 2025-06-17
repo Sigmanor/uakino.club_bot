@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/Sigmanor/uakino.club_bot/compare/v1.9.0...v1.9.1) (2025-06-17)
+
+
+### Bug Fixes
+
+* **config:** update uakino domain to .best ([1aed599](https://github.com/Sigmanor/uakino.club_bot/commit/1aed599f245906b4780f066dec8ce1d6cdf823df))
+
 # [1.9.0](https://github.com/Sigmanor/uakino.club_bot/compare/v1.8.3...v1.9.0) (2025-04-13)
 
 
