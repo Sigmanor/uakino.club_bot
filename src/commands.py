@@ -3,9 +3,9 @@ import os
 from datetime import datetime
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.constants import ParseMode
-from .content_fetcher import get_random_content
-from .config import uakino_url, app_version, admin_id
-from .database import Database
+from src.content_fetcher import get_random_content
+from src.config import uakino_url, app_version, admin_id
+from src.database import Database
 
 logger = logging.getLogger(__name__)
 
