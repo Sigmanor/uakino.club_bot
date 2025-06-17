@@ -55,23 +55,10 @@
 
 ## 🚀 Використання
 
-### Стандартний запуск
+### Запуск
 
 ```bash
 python bot.py
-```
-
-### Docker
-
-```bash
-docker build -t uakino.club_bot .
-docker run -d --name uakino-bot uakino.club_bot
-```
-
-### Docker Compose
-
-```bash
-docker compose up -d
 ```
 
 ## 🤖 Команди бота

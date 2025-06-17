@@ -55,23 +55,10 @@ This Telegram bot helps users discover new content by providing random recommend
 
 ## 🚀 Usage
 
-### Standard Run
+### Run
 
 ```bash
 python bot.py
-```
-
-### Docker
-
-```bash
-docker build -t uakino.club_bot .
-docker run -d --name uakino-bot uakino.club_bot
-```
-
-### Docker Compose
-
-```bash
-docker compose up -d
 ```
 
 ## 🤖 Bot Commands
