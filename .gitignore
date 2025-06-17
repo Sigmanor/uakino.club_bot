@@ -131,3 +131,5 @@ dmypy.json
 .vscode
 db/
 .idea/
+start_bot.sh
+stop_bot.sh
