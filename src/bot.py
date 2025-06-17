@@ -10,8 +10,8 @@ from telegram.ext import (
     CallbackContext,
 )
 from telegram.error import NetworkError, TimedOut, BadRequest
-from .config import bot_token
-from .commands import (
+from src.config import bot_token
+from src.commands import (
     start_command,
     movie_command,
     cartoon_command,
@@ -19,7 +19,7 @@ from .commands import (
     broadcast_command,
     db_command,
 )
-from .content_fetcher import get_random_content
+from src.content_fetcher import get_random_content
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
