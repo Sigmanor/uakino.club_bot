@@ -16,8 +16,6 @@ from src.commands import (
     movie_command,
     cartoon_command,
     serial_command,
-    broadcast_command,
-    db_command,
 )
 from src.content_fetcher import get_random_content
 
@@ -187,8 +185,7 @@ def main() -> None:
     application.add_handler(CommandHandler("movie", movie_command))
     application.add_handler(CommandHandler("serial", serial_command))
     application.add_handler(CommandHandler("cartoon", cartoon_command))
-    application.add_handler(CommandHandler("add", broadcast_command))
-    application.add_handler(CommandHandler("db", db_command))
+    # Removed broadcast and db commands as per request
     application.add_handler(CallbackQueryHandler(another_handler, pattern=r"^another:"))
     application.add_handler(CallbackQueryHandler(disabled_button_handler, pattern=r"^disabled"))
     application.add_error_handler(error_handler)
