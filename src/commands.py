@@ -4,7 +4,7 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.constants import ParseMode
 from src.content_fetcher import get_random_content
-from src.config import uakino_url, app_version, admin_id
+from src.config import uakino_url, app_version
 logger = logging.getLogger(__name__)
 
 

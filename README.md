@@ -54,7 +54,6 @@ This Telegram bot helps users discover new content by providing random recommend
    ```
    Edit `.env` and add your:
    - Telegram Bot Token
-   - Your Telegram ID
 
 ## 🚀 Usage
 
