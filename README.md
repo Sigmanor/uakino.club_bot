@@ -25,6 +25,7 @@ This Telegram bot helps users discover new content by providing random recommend
 - 🎨 Random cartoon picks
 - 🚀 Simple and intuitive commands
 - 🐳 Docker support for easy deployment
+  - **Note:** When deploying in Docker, requests to the site may be blocked (error 403). It is recommended to run the bot locally to avoid this issue.
 
 ## 🛠️ Prerequisites
 
