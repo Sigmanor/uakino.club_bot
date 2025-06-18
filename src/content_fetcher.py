@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from src.utils import random_number
-from contextlib import suppress
 from src.config import uakino_url
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry

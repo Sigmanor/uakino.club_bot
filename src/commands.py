@@ -1,6 +1,4 @@
 import logging
-import os
-from datetime import datetime
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.constants import ParseMode
 from src.content_fetcher import get_random_content
